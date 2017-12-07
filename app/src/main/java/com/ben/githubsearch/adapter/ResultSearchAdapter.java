@@ -65,8 +65,6 @@ public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder
 
         ImageLoader.getInstance().displayImage(searchResult.getItems().get(position).getOwner().getAvatarUrl(), holder.mainImageResItem);
 
-        //MadLog.log(this, String.valueOf(ImageLoader.getInstance().getMemoryCache()));
-
         holder.setOnItemClickListener(new ItemClick() {
             @Override
             public void onItemClick(View view, int position) {

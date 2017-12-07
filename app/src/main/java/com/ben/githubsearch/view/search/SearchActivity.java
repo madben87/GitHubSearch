@@ -11,6 +11,7 @@ import com.ben.githubsearch.GitHubSearch;
 import com.ben.githubsearch.R;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 import com.ben.githubsearch.view.result.ResultActivity;
 
 import javax.inject.Inject;
@@ -37,28 +38,38 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Con
         GitHubSearch.getInjector().inject(this);
 
         searchPresenter.attachView(this);
+
+        MadLog.log(this, "onCreate");
     }
 
     @Override
     public void showResult(SearchResult searchResult) {
+
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(RESULT_KEY, searchResult);
         startActivity(intent);
+
+        MadLog.log(this, "showResult");
     }
 
     @OnClick(R.id.search_btn)
     void click(View view) {
+
         if (searchText.getText() != null && !searchText.getText().toString().equals("")) {
             GitHubSearch.setQuery(searchText.getText().toString());
             searchPresenter.searchData(GitHubSearch.getQuery());
         }else {
             Toast.makeText(this, "Please, enter your query", Toast.LENGTH_SHORT).show();
         }
+
+        MadLog.log(this, "click search_btn");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         searchPresenter.detachView();
+        MadLog.log(this, "onDestroy");
     }
 }

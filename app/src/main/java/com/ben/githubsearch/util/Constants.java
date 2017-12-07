@@ -22,6 +22,7 @@ public interface Constants {
 
     String RESULT_KEY = "result_list";
     String REPOSITORY_KEY = "repo";
+    String FOLLOWERS_KEY = "followers";
 
     String SORT_BY_NAME = "name";
 

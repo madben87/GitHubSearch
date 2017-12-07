@@ -4,6 +4,7 @@ import com.ben.githubsearch.GitHubSearch;
 import com.ben.githubsearch.model.Owner;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class DataManager implements Constants, Repository {
 
     @Override
     public Observable<ArrayList<Owner>> getFollowers(String query) {
+
+        MadLog.log(this, "getFollowers");
         return retrofitService.getFollowers(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -32,6 +35,8 @@ public class DataManager implements Constants, Repository {
 
     @Override
     public Observable<SearchResult> searchData(String query, int page) {
+
+        MadLog.log(this, "searchData");
         return retrofitService.getSearchResultPagination(query, SORT_BY_NAME, ORDER_DESC, page, PER_PAGE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

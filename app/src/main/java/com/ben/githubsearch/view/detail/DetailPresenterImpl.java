@@ -5,6 +5,7 @@ import com.ben.githubsearch.model.Owner;
 import com.ben.githubsearch.model.RepoDetail;
 import com.ben.githubsearch.model.Repository;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class DetailPresenterImpl implements DetailPresenter, Constants {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        MadLog.error(this, e.getMessage());
                     }
 
                     @Override
@@ -49,6 +50,7 @@ public class DetailPresenterImpl implements DetailPresenter, Constants {
                         repoDetail.setFollowersList(followersList);
 
                         view.showDetail(repoDetail);
+                        MadLog.log(this, "showRepo");
                     }
                 }));
     }
@@ -65,13 +67,14 @@ public class DetailPresenterImpl implements DetailPresenter, Constants {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        MadLog.error(this, e.getMessage());
                     }
 
                     @Override
                     public void onNext(ArrayList<Owner> owners) {
 
                         view.showFollowers(owners);
+                        MadLog.log(this, "getFollowers");
                     }
                 }));
     }
@@ -80,12 +83,14 @@ public class DetailPresenterImpl implements DetailPresenter, Constants {
     public void attachView(DetailView mvpView) {
         view = mvpView;
         compositeSubscription = new CompositeSubscription();
+        MadLog.log(this, "attachView");
     }
 
     @Override
     public void detachView() {
         view = null;
         unSubscribe();
+        MadLog.log(this, "detachView");
     }
 
     private void unSubscribe() {

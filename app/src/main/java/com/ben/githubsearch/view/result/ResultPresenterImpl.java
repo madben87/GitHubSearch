@@ -9,6 +9,7 @@ import com.ben.githubsearch.data.DataManager;
 import com.ben.githubsearch.data.Repository;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -45,6 +46,8 @@ public class ResultPresenterImpl implements ResultPresenter, Constants {
 
         nextPage = START_PAGE;
 
+        MadLog.log(this, "setPagination");
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -71,12 +74,13 @@ public class ResultPresenterImpl implements ResultPresenter, Constants {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                MadLog.error(this, e.getMessage());
                             }
 
                             @Override
                             public void onNext(SearchResult searchResult) {
                                 view.nextPage(searchResult.getItems());
+                                MadLog.log(this, "loadNextPage");
                             }
                         }));
                     }
@@ -89,12 +93,14 @@ public class ResultPresenterImpl implements ResultPresenter, Constants {
     public void attachView(ResultView mvpView) {
         this.view = mvpView;
         compositeSubscription = new CompositeSubscription();
+        MadLog.log(this, "attachView");
     }
 
     @Override
     public void detachView() {
         view = null;
         unSubscribe();
+        MadLog.log(this, "detachView");
     }
 
     private void unSubscribe() {

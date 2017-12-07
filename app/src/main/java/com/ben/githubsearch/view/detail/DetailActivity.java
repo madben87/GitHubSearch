@@ -1,5 +1,6 @@
 package com.ben.githubsearch.view.detail;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,6 +15,8 @@ import com.ben.githubsearch.model.Owner;
 import com.ben.githubsearch.model.RepoDetail;
 import com.ben.githubsearch.model.Repository;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
+import com.ben.githubsearch.view.followers.FollowersActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -39,10 +42,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
     CardView detailItemCard;
     @BindView(R.id.detail_avatar)
     ImageView detailAvatar;
-    /*@BindView(R.id.detail_forks_btn)
-    LinearLayout detailForksBtn;
-    @BindView(R.id.detail_followers_btn)
-    LinearLayout detailFollowersBtn;*/
 
     private ImageLoader imageLoader;
     private Repository repository;
@@ -68,6 +67,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
             repository = getIntent().getParcelableExtra(REPOSITORY_KEY);
             detailPresenter.showRepo(repository);
         }
+
+        MadLog.log(this, "onCreate");
     }
 
     @Override
@@ -78,19 +79,26 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
         detailDescription.setText(repoDetail.getRepository().getDescription());
         detailForks.setText(repoDetail.getRepository().getForks());
         detailFollowers.setText(String.valueOf(repoDetail.getFollowersList().size()));
+
+        MadLog.log(this, "showDetail");
     }
 
     @Override
     public void showFollowers(ArrayList<Owner> followersList) {
-        detailFollowers.setText(followersList.size());
+
+        Intent intent = new Intent(this, FollowersActivity.class);
+        intent.putExtra(FOLLOWERS_KEY, followersList);
+        this.startActivity(intent);
+
+        MadLog.log(this, "showFollowers");
     }
 
     @OnClick(R.id.detail_followers_btn)
     void click(View view) {
-        if (getIntent() != null) {
-            repository = getIntent().getParcelableExtra(REPOSITORY_KEY);
-            detailPresenter.getFollowers(repository.getOwner());
-        }
+
+        detailPresenter.getFollowers(repository.getOwner());
+
+        MadLog.log(this, "click detail_followers_btn");
     }
 
     @Override
@@ -98,5 +106,6 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
         super.onDestroy();
 
         detailPresenter.detachView();
+        MadLog.log(this, "onDestroy");
     }
 }

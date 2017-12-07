@@ -11,6 +11,7 @@ import com.ben.githubsearch.adapter.ResultSearchAdapter;
 import com.ben.githubsearch.model.Repository;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,8 @@ public class ResultActivity extends AppCompatActivity implements Constants, Resu
             searchResult = getIntent().getParcelableExtra(RESULT_KEY);
             showResult(searchResult);
         }
+
+        MadLog.log(this, "onCreate");
     }
 
     @Override
@@ -57,12 +60,17 @@ public class ResultActivity extends AppCompatActivity implements Constants, Resu
         resSearchList.setLayoutManager(new LinearLayoutManager(this));
         resSearchList.setAdapter(resultSearchAdapter);
         resultPresenter.setPagination(resSearchList);
+
+        MadLog.log(this, "showResult");
     }
 
     @Override
     public void nextPage(ArrayList<Repository> list) {
+
         resultSearchAdapter.addNewList(list);
         resultSearchAdapter.notifyDataSetChanged();
+
+        MadLog.log(this, "nextPage");
     }
 
     @Override
@@ -70,5 +78,6 @@ public class ResultActivity extends AppCompatActivity implements Constants, Resu
         super.onDestroy();
 
         resultPresenter.detachView();
+        MadLog.log(this, "onDestroy");
     }
 }

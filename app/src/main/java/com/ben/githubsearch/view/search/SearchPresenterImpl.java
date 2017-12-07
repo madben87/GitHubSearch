@@ -4,6 +4,7 @@ import com.ben.githubsearch.data.DataManager;
 import com.ben.githubsearch.data.Repository;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
+import com.ben.githubsearch.util.MadLog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,12 +36,13 @@ public class SearchPresenterImpl implements SearchPresenter, Constants {
 
             @Override
             public void onError(Throwable e) {
-
+                MadLog.error(this, e.getMessage());
             }
 
             @Override
             public void onNext(SearchResult searchResult) {
                 view.showResult(searchResult);
+                MadLog.log(this, "searchData");
             }
         }));
     }
@@ -49,12 +51,14 @@ public class SearchPresenterImpl implements SearchPresenter, Constants {
     public void attachView(SearchView mvpView) {
         view = mvpView;
         compositeSubscription = new CompositeSubscription();
+        MadLog.log(this, "attachView");
     }
 
     @Override
     public void detachView() {
         view = null;
         unSubscribe();
+        MadLog.log(this, "detachView");
     }
 
     private void unSubscribe() {

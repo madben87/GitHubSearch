@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.ben.githubsearch.modules.ContextModule;
+import com.ben.githubsearch.util.MadLog;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,6 +37,8 @@ public class GitHubSearch extends Application {
                 .build();
 
         initImageLoader(getApplicationContext());
+
+        MadLog.log(this, "onCreate");
     }
 
     public static void initImageLoader(Context context) {
