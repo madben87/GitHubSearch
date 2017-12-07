@@ -1,6 +1,7 @@
 package com.ben.githubsearch.view.detail;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -17,6 +18,7 @@ import com.ben.githubsearch.model.Repository;
 import com.ben.githubsearch.util.Constants;
 import com.ben.githubsearch.util.MadLog;
 import com.ben.githubsearch.view.followers.FollowersActivity;
+import com.ben.githubsearch.view.owner.CustomTab;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -32,6 +34,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
 
     @BindView(R.id.detail_repo_name)
     TextView detailRepoName;
+    @BindView(R.id.detail_owner_login)
+    TextView detailOwnerLogin;
     @BindView(R.id.detail_description)
     TextView detailDescription;
     @BindView(R.id.detail_forks)
@@ -75,6 +79,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
     public void showDetail(RepoDetail repoDetail) {
 
         detailRepoName.setText(repoDetail.getRepository().getFullName());
+        detailOwnerLogin.setText(repoDetail.getRepository().getOwner().getLogin());
         imageLoader.displayImage(repoDetail.getRepository().getOwner().getAvatarUrl(), detailAvatar);
         detailDescription.setText(repoDetail.getRepository().getDescription());
         detailForks.setText(repoDetail.getRepository().getForks());
@@ -93,12 +98,21 @@ public class DetailActivity extends AppCompatActivity implements DetailView, Con
         MadLog.log(this, "showFollowers");
     }
 
-    @OnClick(R.id.detail_followers_btn)
+    @OnClick({R.id.detail_followers_btn, R.id.detail_qwner_info, R.id.detail_avatar})
     void click(View view) {
 
-        detailPresenter.getFollowers(repository.getOwner());
-
-        MadLog.log(this, "click detail_followers_btn");
+        switch (view.getId()) {
+            case R.id.detail_followers_btn:
+                detailPresenter.getFollowers(repository.getOwner());
+                MadLog.log(this, "click detail_followers_btn");
+                break;
+            case R.id.detail_qwner_info:
+                CustomTab.tabShow(this, Uri.parse(repository.getOwner().getOwnerHtmlUrl()));
+                break;
+            case R.id.detail_avatar:
+                CustomTab.tabShow(this, Uri.parse(repository.getOwner().getOwnerHtmlUrl()));
+                break;
+        }
     }
 
     @Override

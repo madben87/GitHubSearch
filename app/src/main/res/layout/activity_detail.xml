@@ -36,11 +36,37 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:id="@+id/detail_qwner_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/detail_owner_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="Login"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    app:srcCompat="@drawable/ic_open_in_browser_black_24dp" />
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/detail_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:srcCompat="@drawable/ic_github_octocat" />
+                app:srcCompat="@drawable/ic_github_octocat"
+                tools:ignore="VectorDrawableCompat" />
 
             <ScrollView
                 android:layout_width="match_parent"

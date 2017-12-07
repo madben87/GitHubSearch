@@ -16,7 +16,7 @@ public interface RetrofitService {
     //https://api.github.com/search/repositories?q=etsyclient
     //https://api.github.com/users/madben87/followers
 
-    //https://api.github.com/search/repositories?q=tetris+language:assembly&sort=user&order=desc&page=1&per_page=10
+    //https://api.github.com/search/repositories?q=spring&sort=user&order=desc&page=1&per_page=10
 
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("search/repositories")
