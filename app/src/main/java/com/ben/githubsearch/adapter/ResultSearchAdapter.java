@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ben.githubsearch.GitHubSearch;
 import com.ben.githubsearch.R;
 import com.ben.githubsearch.model.Repository;
 import com.ben.githubsearch.model.SearchResult;
@@ -23,19 +24,19 @@ import javax.inject.Singleton;
 @Singleton
 public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder> implements Constants {
 
-    private SearchResult searchResult;
     private boolean singleLine = true;
+    private ArrayList<Repository> repoList;
 
     @Inject
     public Context context;
 
     @Inject
     public ResultSearchAdapter() {
-        searchResult = new SearchResult();
+        repoList = new ArrayList<>();
     }
 
     public void setResult(SearchResult searchResult) {
-        this.searchResult = searchResult;
+        repoList = filterByName(searchResult.getItems());
     }
 
     public void addNewList(ArrayList<Repository> list) {
@@ -44,7 +45,7 @@ public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder
             return;
         }
 
-        searchResult.getItems().addAll(list);
+        repoList.addAll(filterByName(list));
     }
 
     @Override
@@ -56,14 +57,14 @@ public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder
     @Override
     public void onBindViewHolder(final ResultSearchHolder holder, int position) {
 
-        holder.repoName.setText(searchResult.getItems().get(position).getName());
-        holder.description.setText(searchResult.getItems().get(position).getDescription());
+        holder.repoName.setText(repoList.get(position).getName());
+        holder.description.setText(repoList.get(position).getDescription());
         holder.description.setSingleLine(true);
-        holder.forks.setText(searchResult.getItems().get(position).getForks());
+        holder.forks.setText(repoList.get(position).getForks());
 
         holder.mainImageResItem.setImageResource(0);
 
-        ImageLoader.getInstance().displayImage(searchResult.getItems().get(position).getOwner().getAvatarUrl(), holder.mainImageResItem);
+        ImageLoader.getInstance().displayImage(repoList.get(position).getOwner().getAvatarUrl(), holder.mainImageResItem);
 
         holder.setOnItemClickListener(new ItemClick() {
             @Override
@@ -72,7 +73,7 @@ public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder
                 switch (view.getId()) {
                     case R.id.item_card:
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                        intent.putExtra(REPOSITORY_KEY, searchResult.getItems().get(position));
+                        intent.putExtra(REPOSITORY_KEY, repoList.get(position));
                         view.getContext().startActivity(intent);
                         break;
                     case R.id.descr_layout:
@@ -84,10 +85,23 @@ public class ResultSearchAdapter extends RecyclerView.Adapter<ResultSearchHolder
         });
     }
 
+    private ArrayList<Repository> filterByName(ArrayList<Repository> list) {
+
+        ArrayList<Repository> filteredList = new ArrayList<>();
+
+        for (Repository elem : list) {
+            if (elem.getName().toLowerCase().contains(GitHubSearch.getQuery().toLowerCase())) {
+                filteredList.add(elem);
+            }
+        }
+
+        return filteredList;
+    }
+
     @Override
     public int getItemCount() {
-        if (searchResult.getItems() != null) {
-            return searchResult.getItems().size();
+        if (repoList != null) {
+            return repoList.size();
         }
         return 0;
     }
