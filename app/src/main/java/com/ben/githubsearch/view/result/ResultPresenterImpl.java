@@ -10,6 +10,7 @@ import com.ben.githubsearch.data.Repository;
 import com.ben.githubsearch.model.SearchResult;
 import com.ben.githubsearch.util.Constants;
 import com.ben.githubsearch.util.MadLog;
+import com.ben.githubsearch.view.dialog.FilterDialog;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,6 +27,9 @@ public class ResultPresenterImpl implements ResultPresenter, Constants {
     private ResultView view;
     private CompositeSubscription compositeSubscription;
     private Repository dataManager;
+
+    @Inject
+    FilterDialog filterDialog;
 
     @Inject
     public ResultPresenterImpl(DataManager dataManager) {
@@ -87,6 +91,17 @@ public class ResultPresenterImpl implements ResultPresenter, Constants {
                 }
             }
         });
+    }
+
+    @Override
+    public void filterList(SearchResult searchResult) {
+
+    }
+
+    @Override
+    public void showDialog() {
+        ResultActivity activity = (ResultActivity) view;
+        filterDialog.show(activity.getFragmentManager(), "filterDialog");
     }
 
     @Override

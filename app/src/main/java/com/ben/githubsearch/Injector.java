@@ -4,6 +4,7 @@ import com.ben.githubsearch.data.DataManager;
 import com.ben.githubsearch.modules.ContextModule;
 import com.ben.githubsearch.modules.RetrofitModule;
 import com.ben.githubsearch.view.detail.DetailActivity;
+import com.ben.githubsearch.view.dialog.FilterDialog;
 import com.ben.githubsearch.view.followers.FollowersActivity;
 import com.ben.githubsearch.view.result.ResultActivity;
 import com.ben.githubsearch.view.search.SearchActivity;
@@ -21,4 +22,5 @@ public interface Injector {
     void inject(ResultActivity resultActivity);
     void inject(DetailActivity detailActivity);
     void inject(FollowersActivity followersActivity);
+    void inject(FilterDialog filterDialog);
 }

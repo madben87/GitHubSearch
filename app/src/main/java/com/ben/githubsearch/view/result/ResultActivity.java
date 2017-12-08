@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.ben.githubsearch.GitHubSearch;
 import com.ben.githubsearch.R;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ResultActivity extends AppCompatActivity implements Constants, ResultView {
 
@@ -79,5 +81,10 @@ public class ResultActivity extends AppCompatActivity implements Constants, Resu
 
         resultPresenter.detachView();
         MadLog.log(this, "onDestroy");
+    }
+
+    @OnClick(R.id.btn_filter)
+    void click(View view) {
+        resultPresenter.showDialog();
     }
 }
